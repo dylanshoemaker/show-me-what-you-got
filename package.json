@@ -1,0 +1,29 @@
+{
+  "name": "show-me-what-you-got",
+  "version": "1.0.0",
+  "description": "Content Management System",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jest": "^27.1.0",
+    "mysql2": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "start": "node server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanshoemaker/show-me-what-you-got.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dylanshoemaker/show-me-what-you-got/issues"
+  },
+  "homepage": "https://github.com/dylanshoemaker/show-me-what-you-got#readme"
+  
+}
