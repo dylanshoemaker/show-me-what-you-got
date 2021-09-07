@@ -1,7 +1,10 @@
 const express = require('express');
+const inquire = require('inquirer')
 const db = require('./db/connection');
-
 const apiRoutes = require('./routes/apiRoutes');
+
+const cTable = require('console.table');
+
 
 const PORT = process.env.PORT;
 const app = express();

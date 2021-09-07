@@ -10,9 +10,9 @@ const db = mysql.createConnection(
     user: process.env.DB_USER,
     // Your MySQL password
     password: process.env.DB_PASS,
-    database: "election",
+    database: "tracker",
   },
-  console.log("Connected to the election database.")
+  console.log("Connected to the Employee Tracker.")
 );
 
 module.exports = db;
