@@ -72,6 +72,57 @@ function startPrompt() {
       }
     });
 }
+
 function viewAllDeps(){
+  db.query("SELECT * FROM departments;", 
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    startPrompt()
+  })
+}
+
+function viewAllRoles(){
+  db.query(`SELECT role.id, role.title, role.salary, departments.departments
+  AS department_name 
+  FROM role 
+  LEFT JOIN departments 
+  ON role.departments_id = departments.id;`, 
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    startPrompt()
+  })
+}
+
+function viewAllEmps(){
+  db.query(`SELECT employees.id, employees.first_name, employees.last_name, 
+  role.title AS Title, departments.departments AS Department, role.salary AS Salary, 
+  CONCAT(e.first_name, ' ' ,e.last_name) AS Manager
+  FROM employees 
+  LEFT JOIN role ON employees.role_id = role.id
+  LEFT JOIN departments ON role.departments_id = departments.id
+  LEFT JOIN employees e ON employees.manager_id = e.id;`, 
+  // db.query(`SELECT employees.id FROM employees;`,
+  function(err, res) {
+    if (err) throw err
+    console.table(res)
+    startPrompt()
+  })
+}
+
+function addDeps(){
+  console.log("this works")
+}
+
+function addRole(){
+  console.log("this works")
+}
+
+function addEmp(){
+  console.log("this works")
+}
+
+function updateEmpRole(){
   console.log("this works")
 }
