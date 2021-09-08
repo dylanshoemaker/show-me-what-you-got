@@ -133,7 +133,36 @@ function addDeps(){
 }
 
 function addRole(){
-  console.log("this works")
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the name of the new role?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the salary for the new role?",
+      },
+      {
+        type: "input",
+        name: "departments_id",
+        message: "What is the department id for the new role?",
+      },
+    ]).then(function(res) {
+      db.query(
+        `INSERT INTO role (title, salary, departments_id)
+        VALUE
+        ("${res.title}",
+        "${res.salary}",
+        "${res.departments_id}")
+        `, function(err, res) {
+        if (err) throw err
+        console.table(res)
+        startPrompt()
+      })
+    })
 }
 
 function addEmp(){
