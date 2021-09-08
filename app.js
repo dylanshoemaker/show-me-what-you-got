@@ -166,7 +166,42 @@ function addRole(){
 }
 
 function addEmp(){
-  console.log("this works")
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "What is the first name of this new employee?",
+      },
+      {
+        type: "input",
+        name: "last_name",
+        message: "What is the last name of this new employee?",
+      },
+      {
+        type: "input",
+        name: "role_id",
+        message: "What is the role id for the role of this new employee?",
+      },
+      {
+        type: "input",
+        name: "manager_id",
+        message: "What is the manager id for the manager of this new employee?",
+      },
+    ]).then(function(res) {
+      db.query(
+        `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+        VALUE
+        ("${res.first_name}",
+        "${res.last_name}",
+        "${res.role_id}",
+        "${res.manager_id}")
+        `, function(err, res) {
+        if (err) throw err
+        console.table(res)
+        startPrompt()
+      })
+    })
 }
 
 function updateEmpRole(){
