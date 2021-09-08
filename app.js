@@ -83,7 +83,7 @@ function viewAllDeps(){
 }
 
 function viewAllRoles(){
-  db.query(`SELECT role.id, role.title, role.salary, departments.departments
+  db.query(`SELECT role.id, role.title, role.salary, departments.name
   AS department_name 
   FROM role 
   LEFT JOIN departments 
@@ -97,7 +97,7 @@ function viewAllRoles(){
 
 function viewAllEmps(){
   db.query(`SELECT employees.id, employees.first_name, employees.last_name, 
-  role.title AS Title, departments.departments AS Department, role.salary AS Salary, 
+  role.title AS Title, departments.name AS Department, role.salary AS Salary, 
   CONCAT(e.first_name, ' ' ,e.last_name) AS Manager
   FROM employees 
   LEFT JOIN role ON employees.role_id = role.id
@@ -112,7 +112,24 @@ function viewAllEmps(){
 }
 
 function addDeps(){
-  console.log("this works")
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the name of the new department?",
+      },
+    ]).then(function(res) {
+      db.query(
+        `INSERT INTO departments (name)
+        VALUES
+        ("${res.name}")`,
+      function(err, res) {
+        if (err) throw err
+        console.table(res)
+        startPrompt()
+      })
+    })
 }
 
 function addRole(){
