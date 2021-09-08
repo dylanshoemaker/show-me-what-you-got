@@ -73,45 +73,47 @@ function startPrompt() {
     });
 }
 
-function viewAllDeps(){
-  db.query("SELECT * FROM departments;", 
-  function(err, res) {
-    if (err) throw err
-    console.table(res)
-    startPrompt()
-  })
+function viewAllDeps() {
+  db.query("SELECT * FROM departments;", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    startPrompt();
+  });
 }
 
-function viewAllRoles(){
-  db.query(`SELECT role.id, role.title, role.salary, departments.name
+function viewAllRoles() {
+  db.query(
+    `SELECT role.id, role.title, role.salary, departments.name
   AS department_name 
   FROM role 
   LEFT JOIN departments 
-  ON role.departments_id = departments.id;`, 
-  function(err, res) {
-    if (err) throw err
-    console.table(res)
-    startPrompt()
-  })
+  ON role.departments_id = departments.id;`,
+    function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startPrompt();
+    }
+  );
 }
 
-function viewAllEmps(){
-  db.query(`SELECT employees.id, employees.first_name, employees.last_name, 
+function viewAllEmps() {
+  db.query(
+    `SELECT employees.id, employees.first_name, employees.last_name, 
   role.title AS Title, departments.name AS Department, role.salary AS Salary, 
   CONCAT(e.first_name, ' ' ,e.last_name) AS Manager
   FROM employees 
   LEFT JOIN role ON employees.role_id = role.id
   LEFT JOIN departments ON role.departments_id = departments.id
-  LEFT JOIN employees e ON employees.manager_id = e.id;`, 
-  // db.query(`SELECT employees.id FROM employees;`,
-  function(err, res) {
-    if (err) throw err
-    console.table(res)
-    startPrompt()
-  })
+  LEFT JOIN employees e ON employees.manager_id = e.id;`,
+    function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startPrompt();
+    }
+  );
 }
 
-function addDeps(){
+function addDeps() {
   inquirer
     .prompt([
       {
@@ -119,20 +121,22 @@ function addDeps(){
         name: "name",
         message: "What is the name of the new department?",
       },
-    ]).then(function(res) {
+    ])
+    .then(function (res) {
       db.query(
         `INSERT INTO departments (name)
         VALUES
         ("${res.name}")`,
-      function(err, res) {
-        if (err) throw err
-        console.table(res)
-        startPrompt()
-      })
-    })
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          startPrompt();
+        }
+      );
+    });
 }
 
-function addRole(){
+function addRole() {
   inquirer
     .prompt([
       {
@@ -150,22 +154,25 @@ function addRole(){
         name: "departments_id",
         message: "What is the department id for the new role?",
       },
-    ]).then(function(res) {
+    ])
+    .then(function (res) {
       db.query(
         `INSERT INTO role (title, salary, departments_id)
         VALUE
         ("${res.title}",
         "${res.salary}",
         "${res.departments_id}")
-        `, function(err, res) {
-        if (err) throw err
-        console.table(res)
-        startPrompt()
-      })
-    })
+        `,
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          startPrompt();
+        }
+      );
+    });
 }
 
-function addEmp(){
+function addEmp() {
   inquirer
     .prompt([
       {
@@ -188,7 +195,8 @@ function addEmp(){
         name: "manager_id",
         message: "What is the manager id for the manager of this new employee?",
       },
-    ]).then(function(res) {
+    ])
+    .then(function (res) {
       db.query(
         `INSERT INTO employees (first_name, last_name, role_id, manager_id)
         VALUE
@@ -196,14 +204,41 @@ function addEmp(){
         "${res.last_name}",
         "${res.role_id}",
         "${res.manager_id}")
-        `, function(err, res) {
-        if (err) throw err
-        console.table(res)
-        startPrompt()
-      })
-    })
+        `,
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          startPrompt();
+        }
+      );
+    });
 }
 
-function updateEmpRole(){
-  console.log("this works")
+function updateEmpRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter the ID of the employee you would like to Update",
+        name: "employees_id",
+      },
+      {
+        type: "input",
+        message: "Enter the ID of the employee's new role",
+        name: "role_id",
+      },
+    ])
+    .then(function (res) {
+      db.query(
+        `UPDATE employees 
+        SET role_id = "${res.role_id}" 
+        WHERE id = "${res.employees_id}"
+        `,
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          startPrompt();
+        }
+      );
+    });
 }
