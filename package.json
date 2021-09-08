@@ -15,7 +15,7 @@
   "scripts": {
     "test": "jest"
   },
-  "start": "node server.js",
+  "start": "node app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dylanshoemaker/show-me-what-you-got.git"
