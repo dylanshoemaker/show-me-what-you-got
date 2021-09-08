@@ -1,6 +1,8 @@
+const inquire = require('inquirer');
 require("dotenv").config();
 const mysql = require("mysql2");
-
+const cTable = require('console.table');
+const PORT = process.env.PORT;
 
 // Connect to database
 const db = mysql.createConnection(
@@ -11,8 +13,15 @@ const db = mysql.createConnection(
     // Your MySQL password
     password: process.env.DB_PASS,
     database: "tracker",
-  },
-  console.log("Connected to the Employee Tracker.")
+  }
 );
 
-module.exports = db;
+
+
+
+// Start server after DB connection
+db.connect(err => {
+  if (err) throw err;
+  console.log("Connected to the Employee Tracker.");
+  //start the app here
+});
